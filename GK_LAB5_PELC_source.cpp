@@ -1,7 +1,7 @@
 /*************************************************************************************/
 
-//  Szkielet programu do tworzenia modelu sceny 3-D z wizualizacjπ osi 
-//  uk≥adu wspÛ≥rzÍdnych dla rzutowania perspektywicznego
+//  Szkielet programu do tworzenia modelu sceny 3-D z wizualizacjƒÖ osi 
+//  uk≈Çadu wsp√≥≈Çrzƒôdnych dla rzutowania perspektywicznego
 
 /*************************************************************************************/
 #define _USE_MATH_DEFINES
@@ -17,37 +17,37 @@ using namespace std;
 typedef float point3[3];
 
 static GLfloat viewer[] = { 0.0, 0.0, 10.0 };
-// inicjalizacja po≥oøenia obserwatora
+// inicjalizacja po≈Ço≈ºenia obserwatora
 
-static GLfloat thetax = 0.0;   // kπt obrotu obiektu
-static GLfloat thetay = 0.0;   // kπt obrotu obiektu
-static GLfloat thetax1 = 0.0;   // kπt obrotu obiektu
-static GLfloat thetay1 = 0.0;   // kπt obrotu obiektu
+static GLfloat thetax = 0.0;   // kƒÖt obrotu obiektu
+static GLfloat thetay = 0.0;   // kƒÖt obrotu obiektu
+static GLfloat thetax1 = 0.0;   // kƒÖt obrotu obiektu
+static GLfloat thetay1 = 0.0;   // kƒÖt obrotu obiektu
 
-static GLfloat thetax2 = 0.0;   // kπt obrotu obiektu
-static GLfloat thetay2 = 0.0;   // kπt obrotu obiektu
+static GLfloat thetax2 = 0.0;   // kƒÖt obrotu obiektu
+static GLfloat thetay2 = 0.0;   // kƒÖt obrotu obiektu
 
 static GLfloat pix2angle;     // przelicznik pikseli na stopnie
 static GLfloat cameraz = 0.0;
 
 static GLint status1 = 0;       // stan klawiszy myszy
-static GLint status2 = 0;		// 0 - nie naciúniÍto øadnego klawisza
-								// 1 - naciúniÍty zostaÊ lewy klawisz
-static GLint status3 = 1;		//model obrotu (1 - obrÛt úwia≥ami, 0 - obrÛt kamerπ)
+static GLint status2 = 0;		// 0 - nie naci≈õniƒôto ≈ºadnego klawisza
+								// 1 - naci≈õniƒôty zostaƒá lewy klawisz
+static GLint status3 = 1;		//model obrotu (1 - obr√≥t ≈õwia≈Çami, 0 - obr√≥t kamerƒÖ)
 
 static int x_pos_old = 0;       // poprzednia pozycja kursora myszy
 static int y_pos_old = 0;
 
-static int delta_x = 0;        // rÛønica pomiÍdzy pozycjπ bieøπcπ
-static int delta_y = 0;			// i poprzedniπ kursora myszy
+static int delta_x = 0;        // r√≥≈ºnica pomiƒôdzy pozycjƒÖ bie≈ºƒÖcƒÖ
+static int delta_y = 0;			// i poprzedniƒÖ kursora myszy
 
 static int R1 = 10;
 
-const int N = 200; //rozmiar tablicy wiercho≥kÛw NxN
-static GLfloat theta[] = { 0.0, 0.0, 0.0 }; // trzy kπty obrotu
-int model = 3;  // 1- punkty, 2- siatka, 3 - wype≥nione trÛjkπty
+const int N = 200; //rozmiar tablicy wiercho≈Çk√≥w NxN
+static GLfloat theta[] = { 0.0, 0.0, 0.0 }; // trzy kƒÖty obrotu
+int model = 3;  // 1- punkty, 2- siatka, 3 - wype≈Çnione tr√≥jkƒÖty
 
-//tablice wspÛ≥rzÍdnych wierzcho≥kÛw
+//tablice wsp√≥≈Çrzƒôdnych wierzcho≈Çk√≥w
 float x[N][N];
 float y[N][N];
 float z[N][N];
@@ -58,63 +58,63 @@ float Nz[N][N];
 
 
 
-//tablice wartoúci RGB wierzcho≥kÛw
+//tablice warto≈õci RGB wierzcho≈Çk√≥w
 int R[N][N];
 int G[N][N];
 int B[N][N];
 
 
 GLfloat light_position[] = { 10.0, 0.0, 10.0, 1.0 };
-// po≥oøenie ürÛd≥a
+// po≈Ço≈ºenie ≈∫r√≥d≈Ça
 GLfloat light_position1[] = { -10.0, 0.0, -10.0, 1.0 };
-// po≥oøenie ürÛd≥a
+// po≈Ço≈ºenie ≈∫r√≥d≈Ça
 /*************************************************************************************/
 
 /*************************************************************************************/
-// Funkcja "bada" stan myszy i ustawia wartoúci odpowiednich zmiennych globalnych
+// Funkcja "bada" stan myszy i ustawia warto≈õci odpowiednich zmiennych globalnych
 
 void Mouse(int btn, int state, int x, int y) {
 	if (btn == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{
 		x_pos_old = x;         // przypisanie aktualnie odczytanej pozycji kursora
 		y_pos_old = y;					 // jako pozycji poprzedniej
-		status1 = 1;          // wciÍniÍty zosta≥ lewy klawisz myszy
+		status1 = 1;          // wciƒôniƒôty zosta≈Ç lewy klawisz myszy
 	}
 
 	else if (btn == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
 
 		x_pos_old = x;         // przypisanie aktualnie odczytanej pozycji kursora
 		y_pos_old = y;					 // jako pozycji poprzedniej
-		status2 = 1;          // wciÍniÍty zosta≥ lewy klawisz myszy
+		status2 = 1;          // wciƒôniƒôty zosta≈Ç lewy klawisz myszy
 
 
 	}
 
-	else	status1 = status2 = 0;          // nie zosta≥ wciÍniÍty øaden klawisz
+	else	status1 = status2 = 0;          // nie zosta≈Ç wciƒôniƒôty ≈ºaden klawisz
 }
 
 /*************************************************************************************/
-// Funkcja "monitoruje" po≥oøenie kursora myszy i ustawia wartoúci odpowiednich
+// Funkcja "monitoruje" po≈Ço≈ºenie kursora myszy i ustawia warto≈õci odpowiednich
 // zmiennych globalnych
 
 void Motion(GLsizei x, GLsizei y) {
 
-	delta_x = x - x_pos_old;     // obliczenie rÛønicy po≥oøenia kursora myszy
+	delta_x = x - x_pos_old;     // obliczenie r√≥≈ºnicy po≈Ço≈ºenia kursora myszy
 
-	x_pos_old = x;            // podstawienie bieøπcego po≥oøenia jako poprzednie
+	x_pos_old = x;            // podstawienie bie≈ºƒÖcego po≈Ço≈ºenia jako poprzednie
 
-	delta_y = y - y_pos_old;     // obliczenie rÛønicy po≥oøenia kursora myszy
+	delta_y = y - y_pos_old;     // obliczenie r√≥≈ºnicy po≈Ço≈ºenia kursora myszy
 
-	y_pos_old = y;            // podstawienie bieøπcego po≥oøenia jako poprzednie
+	y_pos_old = y;            // podstawienie bie≈ºƒÖcego po≈Ço≈ºenia jako poprzednie
 
 	glutPostRedisplay();     // przerysowanie obrazu sceny
 }
 
-//Funkcja losujπca kolor dla kaødego wierzcho≥ka
+//Funkcja losujƒÖca kolor dla ka≈ºdego wierzcho≈Çka
 void Colors() {
 	for (int i = 0; i < N; i++) {
 		for (int k = 0; k < N; k++) {
-			//dla wartoúci RGB losuje 0 lub 1
+			//dla warto≈õci RGB losuje 0 lub 1
 			if (x[i][k] == 0 && z[i][k] == 0) {
 				R[i][k] = 1;
 				G[i][k] = 1;
@@ -130,8 +130,8 @@ void Colors() {
 }
 
 void initEgg() {
-	float u = 0, v = 0; //zminne u i v wykorzystywane w funkcjach okreúlajπcych wierzcho≥ki jajka;
-	float fN = N; //wartoúÊ sta≥ej N jako float
+	float u = 0, v = 0; //zminne u i v wykorzystywane w funkcjach okre≈õlajƒÖcych wierzcho≈Çki jajka;
+	float fN = N; //warto≈õƒá sta≈Çej N jako float
 	float l=0;
 	float xu;
 	float yu;
@@ -142,10 +142,10 @@ void initEgg() {
 	float zv;
 
 	for (int i = 0; i < N; i++) {
-		u = float(i / (fN)); //zmienna zmniejszana proporcjonalnie do sta≥ej N, aby znajadowa≥a siÍ w zakresie uøytej funkcji [0,1]
+		u = float(i / (fN)); //zmienna zmniejszana proporcjonalnie do sta≈Çej N, aby znajadowa≈Ça siƒô w zakresie u≈ºytej funkcji [0,1]
 		for (int k = 0; k < N; k++) {
-			v = float(k / (fN)); //zmienna jest zmniejszana proporcjonalnie do sta≥ej N, aby znajadowa≥a siÍ w zakresie uøytej funkcji [0,1]
-			//na podstawie uøytej funkcji wyzaczane sπ wierzcho≥ki 
+			v = float(k / (fN)); //zmienna jest zmniejszana proporcjonalnie do sta≈Çej N, aby znajadowa≈Ça siƒô w zakresie u≈ºytej funkcji [0,1]
+			//na podstawie u≈ºytej funkcji wyzaczane sƒÖ wierzcho≈Çki 
 			x[i][k] = (-90 * pow(u, 5) + 225 * pow(u, 4) - 270 * pow(u, 3) + 180 * pow(u, 2) - 45 * u) * cos(M_PI * v);
 			y[i][k] = 160 * pow(u, 4) - 320 * pow(u, 3) + 160 * pow(u, 2) - 5;
 			z[i][k] = (-90 * pow(u, 5) + 225 * pow(u, 4) - 270 * pow(u, 3) + 180 * pow(u, 2) - 45 * u) * sin(M_PI * v);
@@ -175,14 +175,14 @@ void initEgg() {
 		}
 	}
 	Colors();
-	//wyznaczenie kolorÛw wierzcho≥kÛw
+	//wyznaczenie kolor√≥w wierzcho≈Çk√≥w
 }
 
-//Funkcja rysujπca jajko na 3 rÛzne sposoby
+//Funkcja rysujƒÖca jajko na 3 r√≥zne sposoby
 void Egg(void) {
 
 	if (model == 1) { //punkty
-		glColor3f(1, 1, 0); //kolor ryswoania jest øÛ≥ty
+		glColor3f(1, 1, 0); //kolor ryswoania jest ≈º√≥≈Çty
 		for (int i = 0; i < N; i++) {
 			for (int k = 0; k < N; k++) {
 				glBegin(GL_POINTS);
@@ -193,9 +193,9 @@ void Egg(void) {
 	}
 
 	else if (model == 2) { //siatka
-		glColor3f(1, 1, 0); //kolor ryswoania jest øÛ≥ty
+		glColor3f(1, 1, 0); //kolor ryswoania jest ≈º√≥≈Çty
 
-		//rysowane sπ pionowe linie siatki jajka
+		//rysowane sƒÖ pionowe linie siatki jajka
 		for (int i = 0; i < N; i++) {
 			for (int k = 0; k < N; k++) {
 				glBegin(GL_LINES); //funkcja rysuje linie
@@ -206,7 +206,7 @@ void Egg(void) {
 			}
 		}
 
-		//rysowane sπ ukoúne linie siatki jajka
+		//rysowane sƒÖ uko≈õne linie siatki jajka
 		for (int k = 0; k < N - 1; k++) {
 			int i;
 			for (i = 0; i < (N - 1) / 2; i++) {
@@ -223,9 +223,9 @@ void Egg(void) {
 			}
 		}
 
-		//rysowane sπ ukoúne linie ≥πczπce krawÍdzie siatki v=0 i v=N-1
-		//kierunek skoúnych lini jest zamieniany w po≥owie wspÛ≥rzÍdnej "u" tablicy wierzcho≥kÛw,
-		//aby kiernek wszystkich ukoúnych lini na jajku by≥ taki sam
+		//rysowane sƒÖ uko≈õne linie ≈ÇƒÖczƒÖce krawƒôdzie siatki v=0 i v=N-1
+		//kierunek sko≈õnych lini jest zamieniany w po≈Çowie wsp√≥≈Çrzƒôdnej "u" tablicy wierzcho≈Çk√≥w,
+		//aby kiernek wszystkich uko≈õnych lini na jajku by≈Ç taki sam
 		int i;
 		for (i = 0; i < N / 2; i++) {
 			glBegin(GL_LINES);
@@ -240,7 +240,7 @@ void Egg(void) {
 			glEnd();
 		}
 
-		//rysowane sπ poziome linie siatki jajka
+		//rysowane sƒÖ poziome linie siatki jajka
 		for (int i = 0; i < N; i++) {
 			for (int k = 0; k < N - 1; k++) {
 				glBegin(GL_LINES);
@@ -250,7 +250,7 @@ void Egg(void) {
 			}
 		}
 
-		//rysowane sπ poziome linie ≥πczπce krawÍdzie siatki v=0 i v=N-1
+		//rysowane sƒÖ poziome linie ≈ÇƒÖczƒÖce krawƒôdzie siatki v=0 i v=N-1
 		for (int i = 0; i < N - 1; i++) {
 			glBegin(GL_LINES);
 			glVertex3f(x[i + 1][N - 1], y[i + 1][N - 1], z[i + 1][N - 1]);
@@ -260,12 +260,12 @@ void Egg(void) {
 
 	}
 
-	else if (model == 3) { //wype≥nione trÛjkπty
+	else if (model == 3) { //wype≈Çnione tr√≥jkƒÖty
 
 		for (int i = 0; i < N - 1; i++) {
 			for (int k = 0; k < N - 1; k++) {
-				//rysowane sπ 2 trÛjkπty o wspÛlnym boku pomiÍdzy 4 sπsiadujπcymi w tablicy wiercho≥kami
-				glBegin(GL_POLYGON);  //funkcja rysuje wielokπt
+				//rysowane sƒÖ 2 tr√≥jkƒÖty o wsp√≥lnym boku pomiƒôdzy 4 sƒÖsiadujƒÖcymi w tablicy wiercho≈Çkami
+				glBegin(GL_POLYGON);  //funkcja rysuje wielokƒÖt
 				glColor3f(R[i][k], G[i][k], B[i][k]);
 				glNormal3f(Nx[i][k], Ny[i][k], Nz[i][k]);
 				glVertex3f(x[i][k], y[i][k], z[i][k]);
@@ -295,9 +295,9 @@ void Egg(void) {
 			}
 		}
 
-		//Rysowane sπ trÛjkπty pomiÍdzy krawÍdziami u=0 i u=N-1
+		//Rysowane sƒÖ tr√≥jkƒÖty pomiƒôdzy krawƒôdziami u=0 i u=N-1
 		for (int i = 0; i < N - 1; i++) {
-			glBegin(GL_POLYGON);  //funkcja rysuje wielokπt
+			glBegin(GL_POLYGON);  //funkcja rysuje wielokƒÖt
 			glColor3f(R[0][i], G[0][i], B[0][i]);
 			glNormal3f(Nx[0][i], Ny[0][i], Nz[0][i]);
 			glVertex3f(x[0][i], y[0][i], z[0][i]);
@@ -312,9 +312,9 @@ void Egg(void) {
 			glEnd();
 		}
 
-		// rysowane sπ trÛjkπty miÍdzy krawÍdziami v=0 i v=N-1
+		// rysowane sƒÖ tr√≥jkƒÖty miƒôdzy krawƒôdziami v=0 i v=N-1
 		for (int i = 0; i < N - 1; i++) {
-			glBegin(GL_POLYGON);  //funkcja rysuje wielokπt
+			glBegin(GL_POLYGON);  //funkcja rysuje wielokƒÖt
 			glColor3f(R[i][N - 1], G[i][N - 1], B[i][N - 1]);
 			glNormal3f(Nx[i][N - 1], Ny[i][N - 1], Nz[i][N - 1]);
 			glVertex3f(x[i][N - 1], y[i][N - 1], z[i][N - 1]);
@@ -329,7 +329,7 @@ void Egg(void) {
 			glEnd();
 		}
 		for (int i = 0; i < N - 1; i++) {
-			glBegin(GL_POLYGON);  //funkcja rysuje wielokπt
+			glBegin(GL_POLYGON);  //funkcja rysuje wielokƒÖt
 			glColor3f(R[i + 1][N - 1], G[i + 1][N - 1], B[i + 1][N - 1]);
 			glNormal3f(Nx[i + 1][N - 1], Ny[i + 1][N - 1], Nz[i + 1][N - 1]);
 			glVertex3f(x[i + 1][N - 1], y[i + 1][N - 1], z[i + 1][N - 1]);
@@ -347,27 +347,27 @@ void Egg(void) {
 }
 
 
-// Funkcja okreúlajπca co ma byÊ rysowane (zawsze wywo≥ywana, gdy trzeba
-// przerysowaÊ scenÍ)
+// Funkcja okre≈õlajƒÖca co ma byƒá rysowane (zawsze wywo≈Çywana, gdy trzeba
+// przerysowaƒá scenƒô)
 
 
 void RenderScene(void)
 {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	// Czyszczenie okna aktualnym kolorem czyszczπcym
+	// Czyszczenie okna aktualnym kolorem czyszczƒÖcym
 
 	glLoadIdentity();
 	// Czyszczenie macierzy bie??cej
 
 	gluLookAt(viewer[0], viewer[1], viewer[2], 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-	// Zdefiniowanie po≥oøenia obserwatora
+	// Zdefiniowanie po≈Ço≈ºenia obserwatora
 	//Axes();
-	// Narysowanie osi przy pomocy funkcji zdefiniowanej powyøej
+	// Narysowanie osi przy pomocy funkcji zdefiniowanej powy≈ºej
 
-	if (status3 == 0) {							// jeúli model obrou kamerπ
-		if (status1 == 1) {						// jeúli lewy klawisz myszy wciÍniÍty
-			thetax += delta_x * pix2angle / 20;	// modyfikacja kπta obrotu o kat proporcjonalny do rÛønicy po≥oøeÒ kursora myszy
+	if (status3 == 0) {							// je≈õli model obrou kamerƒÖ
+		if (status1 == 1) {						// je≈õli lewy klawisz myszy wciƒôniƒôty
+			thetax += delta_x * pix2angle / 20;	// modyfikacja kƒÖta obrotu o kat proporcjonalny do r√≥≈ºnicy po≈Ço≈ºe≈Ñ kursora myszy
 			thetay += delta_y * pix2angle / 20;
 			if (thetay > M_PI / 2 - 0.000001) {
 				thetay = M_PI / 2 - 0.000001;
@@ -387,9 +387,9 @@ void RenderScene(void)
 		viewer[1] = R1 * sin(thetay);
 		viewer[2] = R1 * sin(thetax) * cos(thetay);
 	}
-	else if (status3 == 1) {						//jeúli model obrotu úwiat≥em
-		if (status1 == 1) {							// jeúli lewy klawisz myszy wciÍniÍty
-			thetax1 += delta_x * pix2angle / 20;	// modyfikacja kπta obrotu o kat proporcjonalny do rÛønicy po≥oøeÒ kursora myszy
+	else if (status3 == 1) {						//je≈õli model obrotu ≈õwiat≈Çem
+		if (status1 == 1) {							// je≈õli lewy klawisz myszy wciƒôniƒôty
+			thetax1 += delta_x * pix2angle / 20;	// modyfikacja kƒÖta obrotu o kat proporcjonalny do r√≥≈ºnicy po≈Ço≈ºe≈Ñ kursora myszy
 			thetay1 += delta_y * pix2angle / 20;
 			if (thetay1 > M_PI / 2 - 0.000001) {
 				thetay1 = M_PI / 2 - 0.000001;
@@ -402,7 +402,7 @@ void RenderScene(void)
 			light_position[2] = R1 * sin(-thetax1) * cos(-thetay1);
 		}
 		else if (status2 == 1) {
-			thetax2 += delta_x * pix2angle / 20;	// modyfikacja kπta obrotu o kat proporcjonalny do rÛønicy po≥oøeÒ kursora myszy
+			thetax2 += delta_x * pix2angle / 20;	// modyfikacja kƒÖta obrotu o kat proporcjonalny do r√≥≈ºnicy po≈Ço≈ºe≈Ñ kursora myszy
 			thetay2 += delta_y * pix2angle / 20;
 			if (thetay2 > M_PI / 2 - 0.000001) {
 				thetay2 = M_PI / 2 - 0.000001;
@@ -416,80 +416,80 @@ void RenderScene(void)
 		}
 
 	}
-	glRotatef(90, 0.0, 1.0, 0.0);  //obrÛt obiektu o nowy kπt
-	//glRotatef(thetay, 1.0, 0.0, 0.0);  //obrÛt obiektu o nowy kπt
+	glRotatef(90, 0.0, 1.0, 0.0);  //obr√≥t obiektu o nowy kƒÖt
+	//glRotatef(thetay, 1.0, 0.0, 0.0);  //obr√≥t obiektu o nowy kƒÖt
 
 	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 	glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
 
 	glColor3f(1.0f, 1.0f, 1.0f);
-	// Ustawienie koloru rysowania na bia≥y
+	// Ustawienie koloru rysowania na bia≈Çy
 	Egg();
 	//glutSolidTeapot(3.0);
 	// Narysowanie czajnika
 	glFlush();
-	// Przekazanie poleceÒ rysujπcych do wykonania
+	// Przekazanie polece≈Ñ rysujƒÖcych do wykonania
 	glutSwapBuffers();
 }
 /*************************************************************************************/
 
-// Funkcja ustalajπca stan renderowania
+// Funkcja ustalajƒÖca stan renderowania
 
 void MyInit(void)
 {
 /*************************************************************************************/
-// Definicja materia≥u z jakiego zrobiony jest czajnik
+// Definicja materia≈Çu z jakiego zrobiony jest czajnik
 
 	GLfloat mat_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
-	// wspÛ≥czynniki ka =[kar,kag,kab] dla úwiat≥a otoczenia
+	// wsp√≥≈Çczynniki ka =[kar,kag,kab] dla ≈õwiat≈Ça otoczenia
 
 	GLfloat mat_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-	// wspÛ≥czynniki kd =[kdr,kdg,kdb] úwiat≥a rozproszonego
+	// wsp√≥≈Çczynniki kd =[kdr,kdg,kdb] ≈õwiat≈Ça rozproszonego
 
 	GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-	// wspÛ≥czynniki ks =[ksr,ksg,ksb] dla úwiat≥a odbitego               
+	// wsp√≥≈Çczynniki ks =[ksr,ksg,ksb] dla ≈õwiat≈Ça odbitego               
 
 	GLfloat mat_shininess = { 20.0 };
-	// wspÛ≥czynnik n opisujπcy po≥ysk powierzchni
+	// wsp√≥≈Çczynnik n opisujƒÖcy po≈Çysk powierzchni
 
 
 /*************************************************************************************/
-// Definicja ürÛd≥a úwiat≥a
+// Definicja ≈∫r√≥d≈Ça ≈õwiat≈Ça
 
 
 	//GLfloat light_position[] = { -10.0, 0.0, -10.0, 1.0 };
-	// po≥oøenie ürÛd≥a
+	// po≈Ço≈ºenie ≈∫r√≥d≈Ça
 
 
 	GLfloat light_ambient[] = { 0.1, 0.1, 0.1, 1.0 };
-	// sk≥adowe intensywnoúci úwiecenia ürÛd≥a úwiat≥a otoczenia
+	// sk≈Çadowe intensywno≈õci ≈õwiecenia ≈∫r√≥d≈Ça ≈õwiat≈Ça otoczenia
 	// Ia = [Iar,Iag,Iab]
 
 	GLfloat light_diffuse[] = { 1.0, 0.0, 0.0, 1.0 };
-	// sk≥adowe intensywnoúci úwiecenia ürÛd≥a úwiat≥a powodujπcego
+	// sk≈Çadowe intensywno≈õci ≈õwiecenia ≈∫r√≥d≈Ça ≈õwiat≈Ça powodujƒÖcego
 	// odbicie dyfuzyjne Id = [Idr,Idg,Idb]
 
 	GLfloat light_specular[] = { 1.0, 1.0, 0.0, 1.0 };
-	// sk≥adowe intensywnoúci úwiecenia ürÛd≥a úwiat≥a powodujπcego
+	// sk≈Çadowe intensywno≈õci ≈õwiecenia ≈∫r√≥d≈Ça ≈õwiat≈Ça powodujƒÖcego
 	// odbicie kierunkowe Is = [Isr,Isg,Isb]
 
 	GLfloat att_constant = { 1.0 };
-	// sk≥adowa sta≥a ds dla modelu zmian oúwietlenia w funkcji
-	// odleg≥oúci od ürÛd≥a
+	// sk≈Çadowa sta≈Ça ds dla modelu zmian o≈õwietlenia w funkcji
+	// odleg≈Ço≈õci od ≈∫r√≥d≈Ça
 
 	GLfloat att_linear = { 0.05 };
-	// sk≥adowa liniowa dl dla modelu zmian oúwietlenia w funkcji
-	// odleg≥oúci od ürÛd≥a
+	// sk≈Çadowa liniowa dl dla modelu zmian o≈õwietlenia w funkcji
+	// odleg≈Ço≈õci od ≈∫r√≥d≈Ça
 
 	GLfloat att_quadratic = { 0.001 };
-	// sk≥adowa kwadratowa dq dla modelu zmian oúwietlenia w funkcji
-	// odleg≥oúci od ürÛd≥a
+	// sk≈Çadowa kwadratowa dq dla modelu zmian o≈õwietlenia w funkcji
+	// odleg≈Ço≈õci od ≈∫r√≥d≈Ça
 
 /*************************************************************************************/
-// Ustawienie parametrÛw materia≥u i ürÛd≥a úwiat≥a
+// Ustawienie parametr√≥w materia≈Çu i ≈∫r√≥d≈Ça ≈õwiat≈Ça
 
 /*************************************************************************************/
-// Ustawienie patrametrÛw materia≥u
+// Ustawienie patrametr√≥w materia≈Çu
 
 
 	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
@@ -499,7 +499,7 @@ void MyInit(void)
 
 
 	/*************************************************************************************/
-	// Ustawienie parametrÛw ürÛd≥a
+	// Ustawienie parametr√≥w ≈∫r√≥d≈Ça
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
@@ -511,35 +511,35 @@ void MyInit(void)
 	//glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, att_quadratic);
 
 	/*************************************************************************************/
-// Definicja ürÛd≥a úwiat≥a
+// Definicja ≈∫r√≥d≈Ça ≈õwiat≈Ça
 
 
 	
 
 
 	GLfloat light_ambient1[] = { 0.1, 0.1, 0.1, 1.0 };
-	// sk≥adowe intensywnoúci úwiecenia ürÛd≥a úwiat≥a otoczenia
+	// sk≈Çadowe intensywno≈õci ≈õwiecenia ≈∫r√≥d≈Ça ≈õwiat≈Ça otoczenia
 	// Ia = [Iar,Iag,Iab]
 
 	GLfloat light_diffuse1[] = { 0.0, 0.0, 1.0, 1.0 };
-	// sk≥adowe intensywnoúci úwiecenia ürÛd≥a úwiat≥a powodujπcego
+	// sk≈Çadowe intensywno≈õci ≈õwiecenia ≈∫r√≥d≈Ça ≈õwiat≈Ça powodujƒÖcego
 	// odbicie dyfuzyjne Id = [Idr,Idg,Idb]
 
 	GLfloat light_specular1[] = { 1.0, 1.0, 1.0, 0.5 };
-	// sk≥adowe intensywnoúci úwiecenia ürÛd≥a úwiat≥a powodujπcego
+	// sk≈Çadowe intensywno≈õci ≈õwiecenia ≈∫r√≥d≈Ça ≈õwiat≈Ça powodujƒÖcego
 	// odbicie kierunkowe Is = [Isr,Isg,Isb]
 
 	GLfloat att_constant1 = { 1.0 };
-	// sk≥adowa sta≥a ds dla modelu zmian oúwietlenia w funkcji
-	// odleg≥oúci od ürÛd≥a
+	// sk≈Çadowa sta≈Ça ds dla modelu zmian o≈õwietlenia w funkcji
+	// odleg≈Ço≈õci od ≈∫r√≥d≈Ça
 
 	GLfloat att_linear1 = { 0.05 };
-	// sk≥adowa liniowa dl dla modelu zmian oúwietlenia w funkcji
-	// odleg≥oúci od ürÛd≥a
+	// sk≈Çadowa liniowa dl dla modelu zmian o≈õwietlenia w funkcji
+	// odleg≈Ço≈õci od ≈∫r√≥d≈Ça
 
 	GLfloat att_quadratic1 = { 0.001 };
-	// sk≥adowa kwadratowa dq dla modelu zmian oúwietlenia w funkcji
-	// odleg≥oúci od ürÛd≥a
+	// sk≈Çadowa kwadratowa dq dla modelu zmian o≈õwietlenia w funkcji
+	// odleg≈Ço≈õci od ≈∫r√≥d≈Ça
 
 /*************************************************************************************/
 
@@ -553,29 +553,29 @@ void MyInit(void)
 	//glLightf(GL_LIGHT1, GL_QUADRATIC_ATTENUATION, att_quadratic1);
 
 	/*************************************************************************************/
-	// Ustawienie opcji systemu oúwietlania sceny
+	// Ustawienie opcji systemu o≈õwietlania sceny
 
-	glShadeModel(GL_SMOOTH); // w≥aczenie ≥agodnego cieniowania
-	glEnable(GL_LIGHTING);   // w≥aczenie systemu oúwietlenia sceny
-	glEnable(GL_LIGHT0);     // w≥πczenie ürÛd≥a o numerze 0
-	glEnable(GL_LIGHT1);     // w≥πczenie ürÛd≥a o numerze 1
+	glShadeModel(GL_SMOOTH); // w≈Çaczenie ≈Çagodnego cieniowania
+	glEnable(GL_LIGHTING);   // w≈Çaczenie systemu o≈õwietlenia sceny
+	glEnable(GL_LIGHT0);     // w≈ÇƒÖczenie ≈∫r√≥d≈Ça o numerze 0
+	glEnable(GL_LIGHT1);     // w≈ÇƒÖczenie ≈∫r√≥d≈Ça o numerze 1
 
-	glEnable(GL_DEPTH_TEST); // w≥πczenie mechanizmu z-bufora
+	glEnable(GL_DEPTH_TEST); // w≈ÇƒÖczenie mechanizmu z-bufora
 
 /*************************************************************************************/
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	// Kolor czyszczπcy (wype≥nienia okna) ustawiono na czarny
+	// Kolor czyszczƒÖcy (wype≈Çnienia okna) ustawiono na czarny
 	initEgg();
 }
 
 /*************************************************************************************/
 
 
-// Funkcja ma za zadanie utrzymanie sta≥ych proporcji rysowanych
-// w przypadku zmiany rozmiarÛw okna.
-// Parametry vertical i horizontal (wysokoúÊ i szerokoúÊ okna) sπ 
-// przekazywane do funkcji za kaødym razem gdy zmieni siÍ rozmiar okna.
+// Funkcja ma za zadanie utrzymanie sta≈Çych proporcji rysowanych
+// w przypadku zmiany rozmiar√≥w okna.
+// Parametry vertical i horizontal (wysoko≈õƒá i szeroko≈õƒá okna) sƒÖ 
+// przekazywane do funkcji za ka≈ºdym razem gdy zmieni siƒô rozmiar okna.
 
 
 
@@ -584,13 +584,13 @@ void ChangeSize(GLsizei horizontal, GLsizei vertical)
 	pix2angle = 360.0 / (float)horizontal;  // przeliczenie pikseli na stopnie
 
 	glMatrixMode(GL_PROJECTION);
-	// Prze≥πczenie macierzy bieøπcej na macierz projekcji
+	// Prze≈ÇƒÖczenie macierzy bie≈ºƒÖcej na macierz projekcji
 
 	glLoadIdentity();
-	// Czyszcznie macierzy bieøπcej
+	// Czyszcznie macierzy bie≈ºƒÖcej
 
 	gluPerspective(70, 1.0, 1.0, 30.0);
-	// Ustawienie parametrÛw dla rzutu perspektywicznego
+	// Ustawienie parametr√≥w dla rzutu perspektywicznego
 
 
 	if (horizontal <= vertical)
@@ -598,32 +598,32 @@ void ChangeSize(GLsizei horizontal, GLsizei vertical)
 
 	else
 		glViewport((horizontal - vertical) / 2, 0, vertical, vertical);
-	// Ustawienie wielkoúci okna okna widoku (viewport) w zaleønoúci
-	// relacji pomiÍdzy wysokoúciπ i szerokoúciπ okna
+	// Ustawienie wielko≈õci okna okna widoku (viewport) w zale≈ºno≈õci
+	// relacji pomiƒôdzy wysoko≈õciƒÖ i szeroko≈õciƒÖ okna
 
 	glMatrixMode(GL_MODELVIEW);
-	// Prze≥πczenie macierzy bieøπcej na macierz widoku modelu  
+	// Prze≈ÇƒÖczenie macierzy bie≈ºƒÖcej na macierz widoku modelu  
 
 	glLoadIdentity();
-	// Czyszczenie macierzy bieøπcej
+	// Czyszczenie macierzy bie≈ºƒÖcej
 
 }
 
-//fynkcja zwortna wyznaczajπ model rysowania jajka
+//fynkcja zwortna wyznaczajƒÖ model rysowania jajka
 void keys(unsigned char key, int x, int y)
 {
 	if (key == 'p') model = 1; //punkty
 	if (key == 's') model = 2; //siatka
-	if (key == 'w') model = 3; //wypoe≥nione trÛjkπty
+	if (key == 'w') model = 3; //wypoe≈Çnione tr√≥jkƒÖty
 	if (key == 'r') status3 = 0; //rotacja kamery
-	if (key == 'l') status3 = 1; //rotacja úwiat≥a
+	if (key == 'l') status3 = 1; //rotacja ≈õwiat≈Ça
 
 	RenderScene(); // przerysowanie obrazu sceny
 }
 
 /*************************************************************************************/
 
-// G≥Ûwny punkt wejúcia programu. Program dzia≥a w trybie konsoli
+// G≈Ç√≥wny punkt wej≈õcia programu. Program dzia≈Ça w trybie konsoli
 
 void main(void)
 {
@@ -635,24 +635,24 @@ void main(void)
 	glutCreateWindow("Rzutowanie perspektywiczne");
 
 	glutDisplayFunc(RenderScene);
-	// Okreúlenie, øe funkcja RenderScene bÍdzie funkcjπ zwrotnπ
-	// (callback function).  BÍdzie ona wywo≥ywana za kaødym razem
+	// Okre≈õlenie, ≈ºe funkcja RenderScene bƒôdzie funkcjƒÖ zwrotnƒÖ
+	// (callback function).  Bƒôdzie ona wywo≈Çywana za ka≈ºdym razem
 	// gdy zajdzie potrzeba przerysowania okna
 
 
 	glutReshapeFunc(ChangeSize);
-	// Dla aktualnego okna ustala funkcjÍ zwrotnπ odpowiedzialnπ
+	// Dla aktualnego okna ustala funkcjƒô zwrotnƒÖ odpowiedzialnƒÖ
 	// za zmiany rozmiaru okna                       
 
 
 	MyInit();
-	// Funkcja MyInit() (zdefiniowana powyøej) wykonuje wszelkie
-	// inicjalizacje konieczne  przed przystπpieniem do renderowania
+	// Funkcja MyInit() (zdefiniowana powy≈ºej) wykonuje wszelkie
+	// inicjalizacje konieczne  przed przystƒÖpieniem do renderowania
 	glEnable(GL_DEPTH_TEST);
-	// W≥πczenie mechanizmu usuwania niewidocznych elementÛw sceny
+	// W≈ÇƒÖczenie mechanizmu usuwania niewidocznych element√≥w sceny
 	glutKeyboardFunc(keys);
 	glutMouseFunc(Mouse);
-	// Ustala funkcjÍ zwrotnπ odpowiedzialnπ za badanie ruchu myszy
+	// Ustala funkcjƒô zwrotnƒÖ odpowiedzialnƒÖ za badanie ruchu myszy
 	glutMotionFunc(Motion);
 
 	glutMainLoop();
